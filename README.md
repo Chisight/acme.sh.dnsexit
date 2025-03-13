@@ -1,5 +1,6 @@
 # acme.sh.dnsexit
-dnsapi script for dnsexit.com that runs without root and accpets the key via DNSEXITAPIKEY environment variable.
+dnsapi script for dnsexit.com that runs without root and accpets the API key via DNSEXITAPIKEY environment variable.
+Note, since we run without root, the acme.sh options for updating webserver configs will not work so manually install the certificates in your webserver.  We use systemd, so do not enable the cronjob.
 
 We use "dns_localdnsexit.sh" to avoid conflicting with the insecure official dnsexit client.  Unfortunately, to be accepted by the project the script must be insecure so this script will not be included in the official acme.sh
 
@@ -16,6 +17,8 @@ To renew a certificate:
 .acme.sh/acme.sh --debug 2 --renew --dns dns_localdnsexit --ecc --server letsencrypt -d yourdomain.com -d *.yourdomain.com
 
 Optionally put your key and domains in /etc/acme/acme.env and put acme-renew.service and acme-renew.timer in /etc/systemd/system/
+
+acme-renew.service assumes nginx, edit After= and ExecStartPost= for other webservers.
 
 The acme.env variables are DNSEXITAPIKEY=[your api key] and DOMAINS="domain1.com domain2.com"
 
