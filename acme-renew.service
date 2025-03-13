@@ -1,0 +1,9 @@
+[Unit]
+Description=Renew ACME Certificates
+After=nginx.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/acme/acme.env
+ExecStart=/bin/su - acme -c "export DNSEXITAPIKEY=${DNSEXITAPIKEY}; cd ~; . .acme.sh/acme.sh.env; for DOMAIN in ${DOMAINS}; do echo \"Renewing:$DOMAIN\"; .acme.sh/acme.sh --debug 2 --renew --dns dns_localdnsexit --ecc --server letsencrypt -d \"$DOMAIN\" -d \"*.$DOMAIN\"; done"
+ExecStartPost=/bin/systemctl reload nginx
