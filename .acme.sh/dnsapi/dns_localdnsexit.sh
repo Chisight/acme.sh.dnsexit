@@ -21,7 +21,7 @@ dns_localdnsexit_add() {
 
   # Strip off _acme-challenge.
   if [[ $fulldomain == _acme-challenge.* ]]; then
-    _sub_domain=_acme-challenge.
+    _sub_domain=_acme-challenge
     _domain=${fulldomain#_acme-challenge.}
   fi
 
@@ -66,7 +66,7 @@ EOF
     fi
     
     # move the first part of the domain to _subdomain
-    _sub_domain=${_sub_domain}${_domain%%.*}
+    _sub_domain=${_sub_domain}.${_domain%%.*}
     _domain=${_domain#*.}
 
   done
