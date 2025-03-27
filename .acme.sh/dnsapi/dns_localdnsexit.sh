@@ -38,7 +38,7 @@ dns_localdnsexit_add() {
   # Loop to handle the _dnsexit_rest call
   while true; do
     # Check if there's still a period left
-    if [[ $_domain == \*.* ]]; then
+    if [[ $_domain != *.* ]]; then
       _err "invalid domain"
       return 1
     fi
